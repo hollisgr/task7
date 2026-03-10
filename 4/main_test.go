@@ -6,7 +6,7 @@ import (
 )
 
 func BenchmarkDefaultConcat(b *testing.B) {
-	for i := 0; i < b.N; i++ {
+	for b.Loop() {
 		var s string
 		for j := 0; j < 1000; j++ {
 			s += "x"
@@ -15,7 +15,7 @@ func BenchmarkDefaultConcat(b *testing.B) {
 }
 
 func BenchmarkConcatWithStringsBuilder(b *testing.B) {
-	for i := 0; i < b.N; i++ {
+	for b.Loop() {
 		var sb strings.Builder
 		for j := 0; j < 1000; j++ {
 			sb.WriteString("x")
