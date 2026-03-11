@@ -9,6 +9,5 @@ func Greet(name string) {
 func main() {
 	if true {
 		Greet("test")
-	} else {
 	}
 }
