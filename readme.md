@@ -315,3 +315,62 @@ go 1.24.6
 
 ## Задание 10. Использование Git Hooks для автоматической проверки качества кода
 ### Настроить Git Hooks (например, с использованием ​​​​pre-commit​​​​), чтобы автоматически выполнять проверку качества кода перед каждым коммитом.
+
+- Напишем скрипт, который будет проверять форматирование и проводить анализ (vet), создаем файл `.git/hooks/pre-commit`
+```bash
+#!/bin/sh
+
+echo "Running pre-commit quality checks..."
+
+# 1. Formatting
+echo "Formatting code with 'go fmt'..."
+go fmt ./...
+
+# 2. Static analysis
+echo "Running 'go vet'..."
+if ! go vet ./...; then
+    echo "Error: 'go vet' found issues. Fix them before committing."
+    exit 1
+fi
+
+echo "All checks passed. Proceeding with commit..."
+exit 0
+```
+
+- Далее даем права на выполнение: `chmod +x .git/hooks/pre-commit`
+
+- Добавляем файл с кодом
+
+```go
+package main
+import "fmt"
+
+func main() {
+      fmt.Println( "Hook test" )
+    
+    name := "Hollis"
+    fmt.Printf("User: %d\n", name) 
+}
+```
+
+- Пытаемся запушить измения и получаем ошибки
+```bash
+Running pre-commit quality checks...
+Formatting code with 'go fmt'...
+10/main.go
+Running 'go vet'...
+# task7/10
+# [task7/10]
+10/main.go:9:2: fmt.Printf format %d has arg name of wrong type string
+Error: 'go vet' found issues. Fix them before committing.
+```
+
+- Исправляем ошибки и пушим
+```go
+func main() {
+	fmt.Println("Hook test")
+
+	name := "Hollis"
+	fmt.Printf("User: %s\n", name)
+}
+```
