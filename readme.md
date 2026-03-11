@@ -353,7 +353,7 @@ func main() {
 }
 ```
 
-- Пытаемся запушить измения и получаем ошибки
+- Пытаемся закоммитить измения и получаем ошибки
 ```bash
 Running pre-commit quality checks...
 Formatting code with 'go fmt'...
@@ -365,7 +365,7 @@ Running 'go vet'...
 Error: 'go vet' found issues. Fix them before committing.
 ```
 
-- Исправляем ошибки и пушим
+- Исправляем ошибки и коммитим
 ```go
 func main() {
 	fmt.Println("Hook test")
@@ -374,3 +374,15 @@ func main() {
 	fmt.Printf("User: %s\n", name)
 }
 ```
+
+- В терминале видим
+```bash
+Running pre-commit quality checks...
+Formatting code with 'go fmt'...
+Running 'go vet'...
+All checks passed. Proceeding with commit...
+[main 8156bf3] final
+ 2 files changed, 69 insertions(+)
+ create mode 100644 10/main.go
+```
+*Предварительный тест пройден и мы можем пушить изменения*
