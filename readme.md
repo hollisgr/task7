@@ -249,12 +249,69 @@ func main() {
 ## Задание 8. Анализ циклом обратной связи от пользователей
 ### Провести анализ обратной связи от пользователей и решите обнаруженные проблемы или улучшите код на основе предложений.
 
-
+- Исходный код
+```go
+func Join(ids []int) string {
+	res := ""
+	for _, id := range ids {
+		res += strconv.Itoa(id) + ","
+	}
+	return res
+}
+```
+*Представим что получили фидбек от пользователей: "В конце всегда запятая, надо исправить"*
+- Исправленный код
+```go
+func Join(ids []int) string {
+	strIDs := make([]string, len(ids))
+	for i, id := range ids {
+		strIDs[i] = strconv.Itoa(id)
+	}
+	return strings.Join(strIDs, ",")
+}
+```
 
 ## Задание 9. Использование ​​​​go mod tidy​​​​
 ### Очистить и обновить зависимости с помощью команды ​​​​go mod tidy​​​​.
 
+*Для демонстрации работы проинициализируем проект `go mod init part9` \
+Затем установим для него зависимости, например, cleanenv: `go get github.com/ilyakaznacheev/cleanenv`*
 
+- Исходный код проекта
+```go
+package main
+
+import "fmt"
+
+func main() {
+	fmt.Println("Hello world")
+}
+
+```
+
+- Содержимое файла `go.mod`
+```
+module part9
+
+go 1.24.6
+
+require (
+	github.com/BurntSushi/toml v1.2.1 // indirect
+	github.com/ilyakaznacheev/cleanenv v1.5.0 // indirect
+	github.com/joho/godotenv v1.5.1 // indirect
+	gopkg.in/yaml.v3 v3.0.1 // indirect
+	olympos.io/encoding/edn v0.0.0-20201019073823-d3554ca0b0a3 // indirect
+)
+```
+
+- Применяем команду `go mod tidy`, после чего смотрим содержимое файла `go.mod`
+```
+module part9
+
+go 1.24.6
+```
+
+*В проекте не был импортирован пакет cleanenv, поэтому все зависимости этого пакета были удалены*
 
 ## Задание 10. Использование Git Hooks для автоматической проверки качества кода
 ### Настроить Git Hooks (например, с использованием ​​​​pre-commit​​​​), чтобы автоматически выполнять проверку качества кода перед каждым коммитом.
